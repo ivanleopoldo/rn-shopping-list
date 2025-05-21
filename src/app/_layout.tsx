@@ -1,12 +1,13 @@
 import '@/global.css';
 
 import { Theme, ThemeProvider, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { NAV_THEME } from '@/lib/constants';
-import { useColorScheme } from '@/lib/useColorScheme';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { AuthProvider } from '@/lib/providers/AuthProvider';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -21,6 +22,10 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
+
+export const unstable_settings = {
+  initialRouteName: '(auth)',
+};
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
@@ -46,21 +51,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack>
-        <Stack.Screen
-          name="modal"
-          options={{
-            presentation: 'modal',
-          }}
-        />
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack>
+      <AuthProvider>
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(app)" />
+        </Stack>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
