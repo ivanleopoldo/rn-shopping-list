@@ -3,7 +3,6 @@
     "name": "rn-shopping-list",
     "slug": "rn-shopping-list",
     "version": "1.0.0",
-
     "scheme": "rn-shopping-list",
     "web": {
       "bundler": "metro",
@@ -21,28 +20,34 @@
     ],
     "experiments": {
       "typedRoutes": true,
-
       "tsconfigPaths": true
     },
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ivanleopoldoc.rnshoppinglist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.ivanleopoldoc.rnshoppinglist"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "84914608-020d-4567-a56f-2ba6a78d352d"
       }
     }
   }
