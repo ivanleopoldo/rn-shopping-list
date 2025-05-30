@@ -1,19 +1,33 @@
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
-import { SafeAreaView, View } from 'react-native';
+import { Alert, SafeAreaView, View } from 'react-native';
 import { useState } from 'react';
+import { supabase } from '@/utils/supabase';
+import { router } from 'expo-router';
 
 export default function Login() {
   const [isSignUp, setIsSignUp] = useState<Boolean>(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignIn = () => {
-    alert('Sign In');
+  const handleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      Alert.alert('Login Error', error.message);
+    }
   };
-  const handleSignUp = () => {
-    alert('Sign Up');
+  const handleSignUp = async () => {
+    const { error } = await supabase.auth.signUp({ email, password });
+
+    if (error) {
+      Alert.alert('Sign up Error', error.message);
+    }
+
+    router.push('/(auth)/confirm');
   };
 
   const clearText = () => {
@@ -36,6 +50,7 @@ export default function Login() {
           <Input
             onChangeText={(text) => setEmail(text)}
             value={email}
+            autoCapitalize="none"
             textContentType="emailAddress"
             keyboardType="email-address"
             className="w-full"
